@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue-db
+  namespace: sock-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue-db
+  template:
+    metadata:
+      labels:
+        app: catalogue-db
+    spec:
+      initContainers:
+      - name: fix-mysql-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 999:999 /var/lib/mysql']
+        volumeMounts:
+        - name: catalogue-db-storage
+          mountPath: /var/lib/mysql
+      containers:
+      - name: catalogue-db
+        image: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
+        args: 
+           - "--ignore-db-dir=lost+found"
+        ports:
+        - containerPort: {{ .Values.db.port }}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: catalogue-db-storage
+      volumes:
+      - name: catalogue-db-storage
+        persistentVolumeClaim:
+          claimName: catalogue-db-pvc

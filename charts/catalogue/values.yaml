@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: weaveworksdemos/catalogue
+  tag: "0.3.5"
+  pullPolicy: IfNotPresent
+
+db:
+  image: weaveworksdemos/catalogue-db
+  tag: "0.3.0"
+  port: 3306
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 200Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+service:
+  type: ClusterIP
+  port: 80
+
+nodeSelector:
+  beta.kubernetes.io/os: linux

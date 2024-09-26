@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: weaveworksdemos/orders
+  tag: "0.4.7"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 300Mi
+
+service:
+  type: ClusterIP
+  port: 80
+
+db:
+  image: mongo
+  port: 27017
+
+nodeSelector:
+  beta.kubernetes.io/os: linux

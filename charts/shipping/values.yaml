@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: weaveworksdemos/shipping
+  tag: "0.4.8"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 300Mi
+
+env:
+  zipkin: "zipkin.jaeger.svc.cluster.local"
+  java_opts: "-Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false"
+
+service:
+  type: ClusterIP
+  port: 80
+
+nodeSelector:
+  beta.kubernetes.io/os: linux

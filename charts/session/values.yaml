@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: redis
+  tag: "alpine"
+  pullPolicy: IfNotPresent
+
+pvc:
+  claimName: session-db-pvc
+
+resources: {}
+
+service:
+  type: ClusterIP
+  port: 6379
+
+nodeSelector: {}

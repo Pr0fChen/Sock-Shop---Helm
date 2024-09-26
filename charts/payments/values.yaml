@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: weaveworksdemos/payment
+  tag: "0.4.3"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 200Mi
+  requests:
+    cpu: 99m
+    memory: 100Mi
+
+service:
+  type: ClusterIP
+  port: 80
+
+nodeSelector:
+  beta.kubernetes.io/os: linux

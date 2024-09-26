@@ -1,0 +1,25 @@
+replicaCount: 1
+
+rabbitmq:
+  image:
+    repository: rabbitmq
+    tag: "3.6.8-management"
+    pullPolicy: IfNotPresent
+  ports:
+    management: 15672
+    rabbitmq: 5672
+
+exporter:
+  image:
+    repository: kbudde/rabbitmq-exporter
+    tag: latest
+    pullPolicy: IfNotPresent
+  port: 9090
+
+resources: {}
+
+service:
+  type: ClusterIP
+
+nodeSelector:
+  beta.kubernetes.io/os: linux

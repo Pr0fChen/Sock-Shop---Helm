@@ -1,0 +1,40 @@
+# Global values
+replicaCount: 1
+
+carts:
+  replicaCount: 2
+  image:
+    repository: weaveworksdemos/carts
+    tag: "0.4.8"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "200Mi"
+
+orders:
+  replicaCount: 2
+  image:
+    repository: weaveworksdemos/orders
+    tag: "0.4.7"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "300Mi"
+
+session:
+  replicaCount: 1
+  image:
+    repository: redis
+    tag: "alpine"
+
+user:
+  replicaCount: 2
+  image:
+    repository: weaveworksdemos/user
+    tag: "0.4.7"
+
+shipping:
+  replicaCount: 2
+  image:
+    repository: weaveworksdemos/shipping
+    tag: "0.4.8"

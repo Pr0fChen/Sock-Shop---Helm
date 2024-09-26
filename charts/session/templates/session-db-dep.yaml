@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: session-db
+  namespace: sock-shop
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: session-db
+  template:
+    metadata:
+      labels:
+        app: session-db
+    spec:
+      initContainers:
+      - name: fix-redis-permissions
+        image: busybox
+        command: ['sh', '-c', 'chown -R 999:999 /data']
+        volumeMounts:
+        - name: session-db-storage
+          mountPath: /data
+      containers:
+      - name: session-db
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        volumeMounts:
+        - mountPath: /data
+          name: session-db-storage
+      volumes:
+      - name: session-db-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.pvc.claimName }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}

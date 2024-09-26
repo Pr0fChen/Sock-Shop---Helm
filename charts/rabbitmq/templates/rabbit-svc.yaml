@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  labels:
+    name: rabbitmq
+  namespace: sock-shop
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '{{ .Values.exporter.port }}'
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.rabbitmq.ports.rabbitmq }}
+      name: rabbitmq
+      targetPort: {{ .Values.rabbitmq.ports.rabbitmq }}
+    - port: {{ .Values.exporter.port }}
+      name: exporter
+      targetPort: exporter
+      protocol: TCP
+  selector:
+    name: rabbitmq
